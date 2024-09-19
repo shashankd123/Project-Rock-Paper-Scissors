@@ -1,63 +1,52 @@
 function getComputerChoice(){
     const RPS = ['rock', 'paper', 'scissors'];
     let ran = (Math.floor(Math.random() * 3));
-    // console.log(ran)
     return RPS[ran]
 }
 
-function getHumanChoice(){
-    let UserInput = prompt("Enter you choice!", "rock paper scissors"); //"rock paper scissors"
-    return UserInput
+const options = document.querySelector("#options");
+
+options.addEventListener("click", (e) =>{
+    const buttonId = e.target;
+    const result = playRound(buttonId.id);
+    addScore(result);
+})
+
+function addScore(arr){
+    let userScore = document.querySelector("#user-score");
+    let compScore = document.querySelector("#computer-score");
+    let userPick = document.querySelector("#user-pick");
+    let compPick = document.querySelector("#computer-pick");
+    let result = document.querySelector("#result");
+
+
+    if (arr[0] === "You win"){
+        userScore.textContent = Number(userScore.textContent) + 1;
+    }else if (arr[0] === "You lose"){
+        compScore.textContent = Number(compScore.textContent) + 1;
+    }
+
+    result.textContent = arr[0].toUpperCase();
+    userPick.textContent = `Your pick : ${arr[1].toUpperCase()}`;
+    compPick.textContent = `Computer pick :${arr[2].toUpperCase()}`;
 }
 
-function playRound(humanChoice, computerChoice){
+function playRound(userChoice){
+
+    const humanChoice = userChoice;
+    const computerChoice = getComputerChoice();
+
     if (humanChoice == computerChoice){
-        return "Draw"
+        return ["Draw", humanChoice, computerChoice]
     }else if (humanChoice == "rock" && computerChoice == "scissors"){
-        // humanScore +=1
-        return "You win"
+        return ["You win", humanChoice, computerChoice]
     }else if (humanChoice == "paper" && computerChoice == "rock"){
-        // humanScore +=1
-        return "You win"
+        return ["You win", humanChoice, computerChoice]
     }else if (humanChoice == "scissors" && computerChoice == "paper"){
-        // humanScore +=1
-        return "You win"
+        return ["You win", humanChoice, computerChoice]
     }else if ((humanChoice != "rock") && (humanChoice != "paper") && (humanChoice != "scissors")){
-        return "Wrong input"
+        return ["Wrong input"]
     }else{
-        // computerScore += 1
-        return "You lose"
+        return ["You lose", humanChoice, computerChoice]
     }
 }
-
-function playGame(){
-    let result = []
-    let i = 0;
-    let humanScore = 0;
-    let computerScore = 0; 
-    while (i < 5){
-        i = i+1;
-        let humanChoice = (getHumanChoice()).toLowerCase();
-        let computerChoice = getComputerChoice();
-        let res = playRound(humanChoice, computerChoice);
-        result.push(res)
-        if(res == "You win"){
-            humanScore += 1;
-        }else if(res == "You lose"){
-            computerScore += 1;
-        }
-    }
-    return [result, `Your score = ${humanScore}`, `Computer score = ${computerScore}`]
-}
-
-console.log(playGame())
-
-// console.log(playRound(humanChoice, computerChoice))
-// console.log(humanChoice)
-// console.log(computerChoice)
-
-// playRound(humanChoice, computerChoice)
-// console.log(playRound(humanChoice, computerChoice))
-
-// console.log(getComputerChoice())
-// console.log(getHumanChoice())
